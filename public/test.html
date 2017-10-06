@@ -74,14 +74,14 @@
     
         $("#submit-button").on("click", function(event){
             event.preventDefault();
-
+        
             var sushi = { sushi: $("#input-sushi").val().trim()};
-
+            $("#input-sushi").val("")
             $.post("/api/new", sushi)
                 .done(function(data){
 
                 JSON.stringify(data);
-                console.log(data);
+                // console.log(data);
                 $('#new-sushi').empty();
 
                 for(i =0; i < data.length;i++){
@@ -99,11 +99,24 @@
             event.preventDefault();
 
             var sushi = { sushi: $(this).text()};
-            
+            console.log(sushi)
 
             $.post('/api/eaten', sushi)
                 .done(function(data){
                     console.log(data);
+
+
+                    JSON.stringify(data);
+                    $('#eaten-sushi').empty();
+
+                for(i =0; i < data.length;i++){
+                    sushi = data[i].sushi
+                    button = $("<button id='displayed-eaten-sushi'>");
+                    button.attr("data-name", sushi );
+                    button.html(sushi)
+                    br = $("<br>");
+                    $('#eaten-sushi').append(button, br);
+                }
                 });
         })
     

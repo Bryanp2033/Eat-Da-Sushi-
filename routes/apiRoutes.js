@@ -25,7 +25,6 @@ module.exports = function(app){
 
         eatenSushi.push(userBody);
         console.log("EATEN SUSHI: " + userBody.sushi);
-        newSushi.pop(userBody.sushi);
-        console.log(newSushi);
-    })
+        res.json(eatenSushi);
+    });
 }
