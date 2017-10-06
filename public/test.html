@@ -60,10 +60,12 @@
         <h2 >Add a sushi!</h2>
         <div class="display">
             <h3>New Sushi</h3>
+            <h4>Click on the sushi to eat it!</h4>
             <div id="new-sushi"></div>
         </div>
         <div class="display">
             <h3>Eaten Sushi</h3>
+            <h4>Look at at this sushi you ate</h4>
             <div id="eaten-sushi"></div>
         </div>
     </div>
@@ -81,13 +83,29 @@
                 JSON.stringify(data);
                 console.log(data);
                 $('#new-sushi').empty();
-                
+
                 for(i =0; i < data.length;i++){
                     sushi = data[i].sushi
-                    $('#new-sushi').append([i] + ": " + sushi + "<br>");
+                    button = $("<button id='displayed-new-sushi'>");
+                    button.attr("data-name", sushi );
+                    button.html(sushi)
+                    br = $("<br>");
+                    $('#new-sushi').append(button, br);
                 }
             });
         });
+
+        $(document).on("click", "#displayed-new-sushi", function(event){
+            event.preventDefault();
+
+            var sushi = { sushi: $(this).text()};
+            
+
+            $.post('/api/eaten', sushi)
+                .done(function(data){
+                    console.log(data);
+                });
+        })
     
     </script>
 </body>
