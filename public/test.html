@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <title>HOME</title>
 </head>
 <body>
@@ -14,7 +15,7 @@
 
         .block{
             margin: 25px;
-            height: 600px;
+            height: auto;
             border-radius: 10px;
             background-color: white;
         }
@@ -26,7 +27,7 @@
             text-align: center;
             font-size: 50px;
         }
-        #input-text{
+        #input-sushi{
             padding: 10px;
             border: 1px solid black;
             border-radius: 10px;
@@ -49,15 +50,45 @@
     </style>
     <div class="block">
         <img id="sushi-img" src="https://images.vexels.com/media/users/3/143251/isolated/lists/2855503d0be5396c3d1e07018417dca8-sushi-color-icon.png">
-        <div class="display-new-sushi"></div>
-        <div class="display-eaten-sushi"></div>
+
 
         <form>
-            <input type="text" id="input-text" name="sushi" size="39" placeholder="Enter a sushi of your choice...">
+            <input type="text" id="input-sushi" name="sushi" size="39" placeholder="Enter a sushi of your choice...">
             <br>
             <button type="submit" id="submit-button" for="sushi">Submit</button>
         </form>
         <h2 >Add a sushi!</h2>
+        <div class="display">
+            <h3>New Sushi</h3>
+            <div id="new-sushi"></div>
+        </div>
+        <div class="display">
+            <h3>Eaten Sushi</h3>
+            <div id="eaten-sushi"></div>
+        </div>
     </div>
+
+    <script type="text/javascript">
+    
+        $("#submit-button").on("click", function(event){
+            event.preventDefault();
+
+            var sushi = { sushi: $("#input-sushi").val().trim()};
+
+            $.post("/api/new", sushi)
+                .done(function(data){
+
+                JSON.stringify(data);
+                console.log(data);
+                $('#new-sushi').empty();
+                
+                for(i =0; i < data.length;i++){
+                    sushi = data[i].sushi
+                    $('#new-sushi').append([i] + ": " + sushi + "<br>");
+                }
+            });
+        });
+    
+    </script>
 </body>
 </html>

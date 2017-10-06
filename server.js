@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 require("./routes/htmlRoutes.js")(app);
+require("./routes/apiRoutes.js")(app);
 
 app.listen(PORT, function(){
     console.log("Currently listening to localhost:" + PORT);
